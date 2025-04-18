@@ -1,3 +1,11 @@
+<!-- TOC -->
+- [Definitions](#definitions)
+- [Purchase Options](#purchase-options)
+- [Scaling Options](#scaling-options)
+  - [Auto Scaling](#auto-scaling)
+    - [Auto Scaling group](#auto-scaling-group)
+<!-- /TOC -->
+
 
 ## Definitions
 | Term                          | Definition                                                                 |
