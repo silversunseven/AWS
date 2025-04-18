@@ -1,2 +1,4 @@
 # AWS
-learning AWS - Notes
+
+## All Course Notes
+see [Cloud Practitioner Essentials](CloudPractitionerEssentials.md)
