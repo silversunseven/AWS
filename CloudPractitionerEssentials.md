@@ -233,7 +233,7 @@ Define your own private ip range that can be grouped into subnets, some can be p
 To allow public traffic you need an **Internet gateway**, which would look like this:
 ![Public](Public.png)
 
-You can make it only accessable from your corporate network by using a **Virtual Private Gateway** The blue server on the left is you internal corporate network. All public traffic is blocked:
+You can make it only accessable from your corporate network by using a **Virtual Private Gateway** (VPN over internet). The blue server on the left is you internal corporate network. All public traffic is blocked:
 ![PublicAndPrivate](PublicAndPrivate.png)
 While private and encrypted, they still use a regular internet connection, are therefore suceptable to traffic issues.
 
@@ -293,3 +293,6 @@ Route 53 allows you to purchase domains and manage then. It can also
 3) The customer’s request is sent to the nearest edge location through Amazon CloudFront. 
 
 4) Amazon CloudFront connects to the Application Load Balancer, which sends the incoming packet to an Amazon EC2 instance.
+
+# Storage and Databases
+## Instance stores Elastic Block Store (EBS)
