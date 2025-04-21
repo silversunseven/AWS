@@ -1,60 +1,34 @@
-<!-- TOC -->
+<!-- TOC tocDepth:1..3 chapterDepth:2..6 -->
 
-- [1. Definitions](#1-definitions)
-- [2. Amazon EC2](#2-amazon-ec2)
-  - [2.1. Instances](#21-instances)
-  - [2.2. Purchase Options](#22-purchase-options)
-  - [2.3. Scaling Options](#23-scaling-options)
-  - [2.4. Elastic Load Balancing (ELB)](#24-elastic-load-balancing-elb)
-  - [2.5. Messaging and queueing](#25-messaging-and-queueing)
-  - [2.6. Amazon Simple Queue Service (SQS).](#26-amazon-simple-queue-service-sqs)
-  - [2.7. Amazon Simple Notification Service (SNS)](#27-amazon-simple-notification-service-sns)
-- [3. Serverless Compute Infra](#3-serverless-compute-infra)
-  - [3.1. AWS LAMBDA](#31-aws-lambda)
-  - [3.2. Containers](#32-containers)
-- [4. AWS Global Infrastructure](#4-aws-global-infrastructure)
-  - [4.1. Regions](#41-regions)
-  - [4.2. Availability Zones](#42-availability-zones)
-  - [4.3. Data Centres](#43-data-centres)
-  - [4.4. Edge Locations](#44-edge-locations)
-  - [4.5. Provisioning Resources](#45-provisioning-resources)
-
-<!-- TOC -->
 - [AWS Cloud Practitioner Essentials](#aws-cloud-practitioner-essentials)
-  - [Definitions](#definitions)
+  - [1. Definitions](#1-definitions)
 - [Compute in the Cloud](#compute-in-the-cloud)
-  - [Amazon EC2](#amazon-ec2)
-    - [Instances](#instances)
-    - [Purchase Options](#purchase-options)
-    - [Scaling Options](#scaling-options)
-      - [Auto Scaling](#auto-scaling)
-        - [Auto Scaling group](#auto-scaling-group)
-    - [Elastic Load Balancing (ELB)](#elastic-load-balancing-elb)
-    - [Messaging and queueing](#messaging-and-queueing)
-    - [Amazon Simple Queue Service (SQS).](#amazon-simple-queue-service-sqs)
-    - [Amazon Simple Notification Service (SNS)](#amazon-simple-notification-service-sns)
-  - [Serverless Compute Infra](#serverless-compute-infra)
-    - [AWS LAMBDA](#aws-lambda)
-    - [Containers](#containers)
-      - [Elastic Container Service (ECS)](#elastic-container-service-ecs)
-      - [Amazon Elastic Kubernetes Service (Amazon EKS)](#amazon-elastic-kubernetes-service-amazon-eks)
-      - [Amazon Fargate](#amazon-fargate)
+  - [2. Amazon EC2](#2-amazon-ec2)
+    - [2.1. Instances](#21-instances)
+    - [2.2. Purchase Options](#22-purchase-options)
+    - [2.3. Scaling Options](#23-scaling-options)
+    - [2.4. Elastic Load Balancing (ELB)](#24-elastic-load-balancing-elb)
+    - [2.5. Messaging and queueing](#25-messaging-and-queueing)
+    - [2.6. Amazon Simple Queue Service (SQS).](#26-amazon-simple-queue-service-sqs)
+    - [2.7. Amazon Simple Notification Service (SNS)](#27-amazon-simple-notification-service-sns)
+  - [3. Serverless Compute Infra](#3-serverless-compute-infra)
+    - [3.1. AWS LAMBDA](#31-aws-lambda)
+    - [3.2. Containers](#32-containers)
 - [Global Infra and reliability](#global-infra-and-reliability)
-  - [AWS Global Infrastructure](#aws-global-infrastructure)
-    - [Regions](#regions)
-    - [Availability Zones](#availability-zones)
-    - [Data Centres](#data-centres)
-    - [Edge Locations](#edge-locations)
-    - [Provisioning Resources](#provisioning-resources)
-      - [1- AWS Management Console](#1--aws-management-console)
-      - [2- AWS CLI](#2--aws-cli)
-      - [3- AWS SDK](#3--aws-sdk)
-      - [4- Other tooling](#4--other-tooling)
-        - [Elastic Beanstalk](#elastic-beanstalk)
-        - [CloudFormation](#cloudformation)
+  - [4. AWS Global Infrastructure](#4-aws-global-infrastructure)
+    - [4.1. Regions](#41-regions)
+    - [4.2. Availability Zones](#42-availability-zones)
+    - [4.3. Data Centres](#43-data-centres)
+    - [4.4. Edge Locations](#44-edge-locations)
+    - [4.5. Provisioning Resources](#45-provisioning-resources)
+- [Networking](#networking)
+  - [5. Virtual Private Cloud(VPC)](#5-virtual-private-cloudvpc)
+    - [5.1. Subnets and Network ACLS](#51-subnets-and-network-acls)
+
+<!-- /TOC -->
 
 # AWS Cloud Practitioner Essentials
-## Definitions
+## 1. Definitions
 | Term                          | Definition                                                                 |
 |-------------------------------|----------------------------------------------------------------------------|
 | AWS (Amazon Web Services)     | A comprehensive and evolving cloud computing platform provided by Amazon. |
@@ -82,7 +56,7 @@
 | Multitenancy                  | An architecture where multiple tenants share the same physical resources while maintaining data isolation. |
 
 # Compute in the Cloud
-## Amazon EC2
+## 2. Amazon EC2
 Amazon EC2, is a service that lets you run virtual servers in the cloud. If you have applications that you want to run in Amazon EC2, you must do the following:
 
 1- Provision instances (virtual servers).
@@ -93,7 +67,7 @@ Amazon EC2, is a service that lets you run virtual servers in the cloud. If you 
 
 If you are only interested in the Application part, and dont want to manage the infra this is [Serverless Compute Infra](#serverless-compute-infra).
 
-### Instances
+### 2.1. Instances
 **General Pupose** : General purpose instances provide a balance of compute, memory, and networking resources. This instance family would not be the best choice for the application in this scenario. Compute optimized instances are more well suited for batch processing workloads than general purpose instances.
 
 **Memory optimized** instances are more ideal for workloads that process large datasets in memory, such as high-performance databases.
@@ -109,7 +83,7 @@ Accelerated computing instances use hardware accelerators, or co-processors, to 
 High performance computing (HPC) instances are purpose built to offer the best price performance for running HPC workloads at scale on AWS. HPC instances are ideal for applications that benefit from high-performance processors such as large, complex simulations and deep learning workloads.
 
 
-### Purchase Options
+### 2.2. Purchase Options
 | Plan                          | Definition                                                                 |
 |-------------------------------|----------------------------------------------------------------------------|
 | On Demand     | Pay per hour/sec, this can provide you with a baseline. no longterm commitment |
@@ -120,42 +94,42 @@ High performance computing (HPC) instances are purpose built to offer the best p
 | Dedicated hosts | Physical servers with Amazon EC2 instance capacity that is fully dedicated to your use. (Most expensive) and run in a Virtual Private Cloud(VPC) |
 
 
-### Scaling Options
+### 2.3. Scaling Options
 Scalability involves beginning with only the resources you need and designing your architecture to automatically respond to changing demand by scaling out or in. As a result, you pay for only the resources you use. You don’t have to worry about a lack of computing capacity to meet your customers’ needs.
 | Plan                          | Definition                                                                 |
 |-------------------------------|----------------------------------------------------------------------------|
 | Dynamic scaling    | Responds to changing demand. |
 | Predictive scaling    | Automatically schedules the right number of Amazon EC2 instances based on predicted demand. |
 
-#### Auto Scaling
+#### 2.3.1. Auto Scaling
 In the cloud, computing power is a programmatic resource, so you can take a more flexible approach to the issue of scaling. By adding Amazon EC2 Auto Scaling to an application, you can add new instances to the application when necessary and terminate them when no longer needed.
 
-##### Auto Scaling group
+##### 2.3.1.1. Auto Scaling group
 When you create an Auto Scaling group, you can set the minimum number of Amazon EC2 instances. The minimum capacity is the number of Amazon EC2 instances that launch immediately after you have created the Auto Scaling group. In this example, the Auto Scaling group has a minimum capacity of one Amazon EC2 instance. You pay for only the instances you use, when you use them.
 ![Autoscaling Group](Autoscaling.png)
 
-### Elastic Load Balancing (ELB)
+### 2.4. Elastic Load Balancing (ELB)
 Elastic Load Balancing is the AWS service that automatically distributes incoming application traffic across multiple resources, such as Amazon EC2 instances. This helps to ensure that no single resource becomes overutilized.
 Although Elastic Load Balancing and Amazon EC2 Auto Scaling are separate services, they work together to help ensure that applications running in Amazon EC2 can provide high performance and availability. 
 Scales without no additional extra cost
 
 ![ELB](ELB.png)
 
-### Messaging and queueing
+### 2.5. Messaging and queueing
 **_monolithic approach_** have tightly coupled componants are components that are very dependant on each other (if a single component fails, other components fail, and possibly the entire application fails). typical .
 
 **_Microservices_approach_** are loosly coupled where only failure does not affect other componants.
 
 
-### Amazon Simple Queue Service (SQS).
+### 2.6. Amazon Simple Queue Service (SQS).
 Message Queue model.
 You can send, store, and receive messages between software components, without losing messages or requiring other services to be available. In Amazon SQS, an application sends messages into a queue. A user or service retrieves a message from the queue, processes it, and then deletes it from the queue.
 
-### Amazon Simple Notification Service (SNS)
+### 2.7. Amazon Simple Notification Service (SNS)
 Pub/Sub model. a publisher publishes messages to subscribers. Subscribers can be web servers, email addresses, AWS Lambda functions, or several other options. 
 
-## Serverless Compute Infra
-### AWS LAMBDA
+## 3. Serverless Compute Infra
+### 3.1. AWS LAMBDA
 The term “_serverless_” means that your code runs on servers, but you do not need to provision or manage these servers. With serverless computing, you can focus more on innovating new products and features instead of maintaining servers.
 
 Another benefit of serverless computing is the flexibility to scale serverless applications automatically. Serverless computing can adjust the applications' capacity by modifying the units of consumptions, such as throughput and memory. 
@@ -164,28 +138,28 @@ For example, a simple Lambda function might involve automatically resizing uploa
 
 ![lambda](lambda.png)
 
-### Containers
+### 3.2. Containers
 Containers provide you with a standard way to package your application's code and dependencies into a single object. You can also use containers for processes and workflows in which there are essential requirements for security, reliability, and scalability.
 
-#### Elastic Container Service (ECS)
+#### 3.2.1. Elastic Container Service (ECS)
 Runs on top of EC2 containers, which you manage.
 Amazon ECS supports Docker containers. 
 AWS supports the use of open-source Docker Community Edition and subscription-based Docker Enterprise Edition. With Amazon ECS, you can use API calls to launch and stop Docker-enabled applications.
 
-#### Amazon Elastic Kubernetes Service (Amazon EKS)
+#### 3.2.2. Amazon Elastic Kubernetes Service (Amazon EKS)
 Runs on top of EC2 containers, which you manage.
 Fully managed service that you can use to run Kubernetes on AWS. As new features and functionalities release for Kubernetes applications, you can easily apply these updates to your applications managed by Amazon EKS.
 
-#### Amazon Fargate
+#### 3.2.3. Amazon Fargate
 Underlying OS is managed by AWS. It is the serverless version of ECS / EKS. Fargate is a serverless compute engine for containers. It works with both Amazon ECS and Amazon EKS. You do not need to provision or manage servers. AWS Fargate manages your server infrastructure for you. You can focus more on innovating and developing your applications, and you pay only for the resources that are required to run your containers.
 ![Fargate](fargate.png)
 
 [Hands on Tutorial : Compute](https://aws.amazon.com/getting-started/hands-on/?awsf.getting-started-category=category%23compute&awsf.getting-started-content-type=content-type%23hands-on)
 
 # Global Infra and reliability
-## AWS Global Infrastructure
+## 4. AWS Global Infrastructure
 
-### Regions
+### 4.1. Regions
 Regions connect through hispeed fibre connections. They are geographically isolated.There are 4 Conciderations when choosing a region
 
     1 - Complience
@@ -196,7 +170,7 @@ Regions connect through hispeed fibre connections. They are geographically isola
     
     4 - Pricing
 
-### Availability Zones
+### 4.2. Availability Zones
 An Availability Zone is a single data center or a group of data centers **within a Region**. 
 These are usually <100Miles in seperation.Availability Zones are located tens of miles apart from each other. This is close enough to have low latency (the time between when content requested and received) between Availability Zones. However, if a disaster occurs in one part of the Region, they are distant enough to reduce the chance that multiple Availability Zones are affected.
 
@@ -204,10 +178,10 @@ These are usually <100Miles in seperation.Availability Zones are located tens of
 ![Availability Zones](availabilityZones.png)
 ![Failure of an Availability Zone](availabilityZonesFailure.png)
 
-### Data Centres
+### 4.3. Data Centres
 There are x amount of data centres inside an AZ.
 
-### Edge Locations
+### 4.4. Edge Locations
 **Edge Locations** is a Site that **CloudFront** (Amazons content delivery network) used to store cached copied of you content closer to your customer for faster delivery.
 ![Edge Locations](edgeLocations.png)
 
@@ -215,25 +189,25 @@ Edge Locations also run a DNS service called **Route 53**.
 
 You can also use **AWS Outposts** that can be installed in your datacenter but owned and operated by AWS. Not all that common.
 
-### Provisioning Resources
+### 4.5. Provisioning Resources
 Everything in AWS has an API. So there are multiple ways to create resources in AWS.
-#### 1- AWS Management Console
+#### 4.5.1. 1- AWS Management Console
 The AWS Management Console is a web-based interface for accessing and managing AWS services. You can quickly access recently used services and search for other services by name, keyword, or acronym. The console includes wizards and automated workflows that can simplify the process of completing tasks.
 
 You can also use the AWS Console mobile application to perform tasks such as monitoring resources, viewing alarms, and accessing billing information. Multiple identities can stay logged into the AWS Console mobile app at the same time.
 
-#### 2- AWS CLI
+#### 4.5.2. 2- AWS CLI
 To save time when making API requests, you can use the AWS Command Line Interface (AWS CLI). AWS CLI enables you to control multiple AWS services directly from the command line within one tool. AWS CLI is available for users on Windows, macOS, and Linux. 
 
 By using AWS CLI, you can automate the actions that your services and applications perform through scripts. For example, you can use commands to launch an Amazon EC2 instance, connect an Amazon EC2 instance to a specific Auto Scaling group, and more.
 
-#### 3- AWS SDK
+#### 4.5.3. 3- AWS SDK
 Another option for accessing and managing AWS services is the software development kits (SDKs). SDKs make it easier for you to use AWS services through an API designed for your programming language or platform. SDKs enable you to use AWS services with your existing applications or create entirely new applications that will run on AWS.
 
 To help you get started with using SDKs, AWS provides documentation and sample code for each supported programming language. Supported programming languages include C++, Java, .NET, and more.
 
-#### 4- Other tooling
-##### Elastic Beanstalk
+#### 4.5.4. 4- Other tooling
+##### 4.5.4.1. Elastic Beanstalk
 Instead of individually provisioning EC2 instances you can use AWS Elastic Beanstalk, you provide **code** and **desired configuration settings**, and Elastic Beanstalk deploys the resources necessary to perform the following tasks:
 
     -Adjust capacity
@@ -248,12 +222,12 @@ You can save the configuration and then replicate it in another region.
 ![Beanstalk](Beanstalk.png)
 
 
-##### CloudFormation
+##### 4.5.4.2. CloudFormation
 A global content delivery service and IaC tool. Declerative Json or yaml format (Cloud formation template). This does more than just EC2 resources, it does many others aswell (storage, db ML etc). Define what you want and CloudFormation builds out what you want. It determines the right operations to perform when managing your stack and rolls back changes automatically if it detects errors.
 ![Cloudformation](Cloudformation.png)
 
 # Networking
-## Virtual Private Cloud(VPC)
+## 5. Virtual Private Cloud(VPC)
 Define your own private ip range that can be grouped into subnets, some can be public available if required.
 
 To allow public traffic you need an **Internet gateway**, which would look like this:
@@ -270,5 +244,52 @@ This is a dedicated connection over a local telco provider where you select your
 [Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/)
 
 
-### Subnets and Network ACLS
+### 5.1. Subnets and Network ACLS
+A **subnet** is a section of a VPC in which you can group resources based on security or operational needs. Subnets can be public or private. 
 
+#### Public subnets
+ contain resources that need to be accessible by the public, such as an online store’s website.
+
+#### Private subnets 
+Contain resources that should be accessible only through your private network, such as a database that contains customers’ personal information and order histories. 
+
+In a VPC, subnets can communicate with each other. For example, you might have an application that involves Amazon EC2 instances in a public subnet communicating with databases that are located in a private subnet.
+
+By default, network ACL allows all inbound and outbound traffic, but you can modify it by adding your own rules. For custom network ACLs, all inbound and outbound traffic is denied until you add rules to specify which traffic to allow. Additionally, all network ACLs have an explicit deny rule. This rule ensures that if a packet doesn’t match any of the other rules on the list, the packet is denied. 
+
+**Security groups** apply **Stateful packet filtering**, so they remember previous decisions made for incoming packets. For example a request from an Amazon EC2 instance to the internet, so the security group allows the response to proceed, regardless of inbound security group rules.
+![SubnetVSNACL](SubnetVSNACL.png)
+
+**Network ACL** apply **Stateless packet filtering**, this is on the subnet level. Network access control lists (ACLs) perform stateless packet filtering. They remember nothing and check packets that cross the subnet border each way: inbound and outbound.
+
+Each AWS account includes a default network ACL. 
+
+By default, your account’s default network ACL allows all inbound and outbound traffic, but you can modify it by adding your own rules. For custom network ACLs, all inbound and outbound traffic is denied until you add rules to specify which traffic should be allowed. Additionally, all network ACLs have an explicit deny rule. This rule ensures that if a packet doesn’t match any of the other rules on the list, the packet is denied.
+
+**Below is an example of how Security Groups and NACL's work together:** 
+![SubnetVSNACL2](SubnetVSNACL2.png)
+
+## Global Network
+### Route 53 (Amazon DNS)
+Route 53 allows you to purchase domains and manage then. It can also
+ perform various routing policies like;
+
+    1 - Latency-based routing
+
+    2 - Geolocation DNS
+
+    3 - Geoproximity routing
+
+    4 - Weighted round robin 
+
+**Cloudfront and Route 53 example:**
+
+*Suppose that AnyCompany’s application is running on several Amazon EC2 instances. These instances are in an Auto Scaling group that attaches to an Application Load Balancer*
+![R53andCloudfrontexample](R53andCloudfrontexample.png)
+1) A customer requests data from the application by going to AnyCompany’s website. 
+
+2) Amazon Route 53 uses DNS resolution to identify AnyCompany.com’s corresponding IP address, 192.0.2.0. This information is sent back to the customer. 
+
+3) The customer’s request is sent to the nearest edge location through Amazon CloudFront. 
+
+4) Amazon CloudFront connects to the Application Load Balancer, which sends the incoming packet to an Amazon EC2 instance.
