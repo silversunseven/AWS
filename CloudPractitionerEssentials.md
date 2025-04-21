@@ -1,4 +1,25 @@
 <!-- TOC -->
+
+- [1. Definitions](#1-definitions)
+- [2. Amazon EC2](#2-amazon-ec2)
+  - [2.1. Instances](#21-instances)
+  - [2.2. Purchase Options](#22-purchase-options)
+  - [2.3. Scaling Options](#23-scaling-options)
+  - [2.4. Elastic Load Balancing (ELB)](#24-elastic-load-balancing-elb)
+  - [2.5. Messaging and queueing](#25-messaging-and-queueing)
+  - [2.6. Amazon Simple Queue Service (SQS).](#26-amazon-simple-queue-service-sqs)
+  - [2.7. Amazon Simple Notification Service (SNS)](#27-amazon-simple-notification-service-sns)
+- [3. Serverless Compute Infra](#3-serverless-compute-infra)
+  - [3.1. AWS LAMBDA](#31-aws-lambda)
+  - [3.2. Containers](#32-containers)
+- [4. AWS Global Infrastructure](#4-aws-global-infrastructure)
+  - [4.1. Regions](#41-regions)
+  - [4.2. Availability Zones](#42-availability-zones)
+  - [4.3. Data Centres](#43-data-centres)
+  - [4.4. Edge Locations](#44-edge-locations)
+  - [4.5. Provisioning Resources](#45-provisioning-resources)
+
+<!-- TOC -->
 - [AWS Cloud Practitioner Essentials](#aws-cloud-practitioner-essentials)
   - [Definitions](#definitions)
 - [Compute in the Cloud](#compute-in-the-cloud)
@@ -228,5 +249,26 @@ You can save the configuration and then replicate it in another region.
 
 
 ##### CloudFormation
-IaC tool. Declerative Json or yaml format (Cloud formation template). This does more than just EC2 resources, it does many others aswell (storage, db ML etc). Define what you want and CloudFormation builds out what you want. It determines the right operations to perform when managing your stack and rolls back changes automatically if it detects errors.
-![Cloudformation](Cloudformation.png)daaadwadwwwadawdsadawdaw
+A global content delivery service and IaC tool. Declerative Json or yaml format (Cloud formation template). This does more than just EC2 resources, it does many others aswell (storage, db ML etc). Define what you want and CloudFormation builds out what you want. It determines the right operations to perform when managing your stack and rolls back changes automatically if it detects errors.
+![Cloudformation](Cloudformation.png)
+
+# Networking
+## Virtual Private Cloud(VPC)
+Define your own private ip range that can be grouped into subnets, some can be public available if required.
+
+To allow public traffic you need an **Internet gateway**, which would look like this:
+![Public](Public.png)
+
+You can make it only accessable from your corporate network by using a **Virtual Private Gateway** The blue server on the left is you internal corporate network. All public traffic is blocked:
+![PublicAndPrivate](PublicAndPrivate.png)
+While private and encrypted, they still use a regular internet connection, are therefore suceptable to traffic issues.
+
+This is where **AWS Direct Connect** helps.
+This is a dedicated connection over a local telco provider where you select your desired bandwidth.
+![DirectConnect](DirectConnect.png)
+
+[Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/)
+
+
+### Subnets and Network ACLS
+
