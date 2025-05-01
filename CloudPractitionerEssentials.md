@@ -4,9 +4,12 @@
   - [1. Definitions](#1-definitions)
 - [Compute in the Cloud](#compute-in-the-cloud)
   - [2. Amazon EC2](#2-amazon-ec2)
+  - [Benefits](#benefits)
     - [2.1. Instances](#21-instances)
     - [2.2. Purchase Options](#22-purchase-options)
     - [2.3. Scaling Options](#23-scaling-options)
+      - [2.3.1. Auto Scaling](#231-auto-scaling)
+        - [2.3.1.1. Auto Scaling group](#2311-auto-scaling-group)
     - [2.4. Elastic Load Balancing (ELB)](#24-elastic-load-balancing-elb)
     - [2.5. Messaging and queueing](#25-messaging-and-queueing)
     - [2.6. Amazon Simple Queue Service (SQS).](#26-amazon-simple-queue-service-sqs)
@@ -14,6 +17,9 @@
   - [3. Serverless Compute Infra](#3-serverless-compute-infra)
     - [3.1. AWS LAMBDA](#31-aws-lambda)
     - [3.2. Containers](#32-containers)
+      - [3.2.1. Elastic Container Service (ECS)](#321-elastic-container-service-ecs)
+      - [3.2.2. Amazon Elastic Kubernetes Service (Amazon EKS)](#322-amazon-elastic-kubernetes-service-amazon-eks)
+      - [3.2.3. Amazon Fargate](#323-amazon-fargate)
 - [Global Infra and reliability](#global-infra-and-reliability)
   - [4. AWS Global Infrastructure](#4-aws-global-infrastructure)
     - [4.1. Regions](#41-regions)
@@ -21,9 +27,23 @@
     - [4.3. Data Centres](#43-data-centres)
     - [4.4. Edge Locations](#44-edge-locations)
     - [4.5. Provisioning Resources](#45-provisioning-resources)
+      - [4.5.1. 1- AWS Management Console](#451-1--aws-management-console)
+      - [4.5.2. 2- AWS CLI](#452-2--aws-cli)
+      - [4.5.3. 3- AWS SDK](#453-3--aws-sdk)
+      - [4.5.4. 4- Other tooling](#454-4--other-tooling)
+        - [4.5.4.1. Elastic Beanstalk](#4541-elastic-beanstalk)
+        - [4.5.4.2. CloudFormation](#4542-cloudformation)
 - [Networking](#networking)
   - [5. Virtual Private Cloud(VPC)](#5-virtual-private-cloudvpc)
     - [5.1. Subnets and Network ACLS](#51-subnets-and-network-acls)
+      - [Public subnets](#public-subnets)
+      - [Private subnets](#private-subnets)
+  - [Global Network](#global-network)
+    - [Route 53 (Amazon DNS)](#route-53-amazon-dns)
+- [Storage and Databases](#storage-and-databases)
+  - [Instance stores and Elastic Block Store (EBS)](#instance-stores-and-elastic-block-store-ebs)
+  - [Amazon S3 (Simple Storage Service)](#amazon-s3-simple-storage-service)
+    - [S3 Standard (99.999999999 probabilty of)](#s3-standard-99999999999-probabilty-of)
 
 <!-- /TOC -->
 
@@ -32,9 +52,13 @@
 | Term                          | Definition                                                                 |
 |-------------------------------|----------------------------------------------------------------------------|
 | AWS (Amazon Web Services)     | A comprehensive and evolving cloud computing platform provided by Amazon. |
+| CIDR (Classless Interdomain Routing) | CIDR is an internet protocol address allocation and route aggregation methodology. |
+| Client Side Enctyption | This is the act of encrypting your data locally to help ensure its security in transit and at rest. |
+| Durability | This term refers to a system's ability to perform its responsibilities over time, even when unexpected events can occur. For example, Amazon S3 is designed for 99.999999999 percent data durability.|
+| Access Control Lists(ACL)     | An ACL is a document that defines who can access a particular bucket or object. Each bucket and object in Amazon Simple Storage Service (Amazon S3) has an ACL. This document defines what each type of user can do, such as write and read permissions.|
 | Cloud Computing               | The on-demand delivery of IT resources over the Internet with pay-as-you-go pricing. |
-| Region                        | A geographical area containing multiple AWS Availability Zones.           |
-| Availability Zone (AZ)        | One or more discrete data centers with redundant power and networking.    |
+| Region                        | A geographical area containing multiple AWS Availability Zones. Regional services are services that AWS has built on top of multiple Availability Zones so that you don’t have to figure out how to make the best use of zonal services. Regional services only require the assignment of a Region. They use the independence and redundancy of Availability Zones to minimize infrastructure failure.           |
+| Availability Zone (AZ)        | One or more discrete data centers with redundant power and networking.  It is designed to provide inexpensive, low-latency network connectivity to other Availability Zones in the same Region.   |
 | Edge Location                 | A site that AWS uses to cache content closer to users, used in services like CloudFront. |
 | IAM (Identity and Access Management) | A service for managing access to AWS services and resources securely.  |
 | EC2 (Elastic Compute Cloud)   | A web service that provides resizable compute capacity in the cloud.       |
@@ -54,6 +78,12 @@
 | Hypervisor                    | Software that creates and runs virtual machines by abstracting hardware resources. |
 | Tenant                        | A single customer or user group using a shared computing resource.         |
 | Multitenancy                  | An architecture where multiple tenants share the same physical resources while maintaining data isolation. |
+| Edge Location                 | An edge location is a data center that an AWS service uses to perform service-specific operations. Edge locations are examples of points of presence (PoPs) in the global edge network |
+| Elasticity                        | This is the ability to acquire resources as you need them and to release resources when you no longer need them. In the cloud, you want to do this automatically.  |   
+| Gateway                        | A gateway is a device or node that connects two different networks by translating communications from one protocol to another.  |  
+| Server-Side Encryption (SSE)   | SSE is the encryption of data at its destination by the application or service that receives it |  
+| Zonal Services  | Zonal services require the assignment of a Region and an Availability Zone. |  
+
 
 # Compute in the Cloud
 ## 2. Amazon EC2
@@ -66,6 +96,18 @@ Amazon EC2, is a service that lets you run virtual servers in the cloud. If you 
 3- Continue to manage the instances while your application is running.
 
 If you are only interested in the Application part, and dont want to manage the infra this is [Serverless Compute Infra](#serverless-compute-infra).
+
+## Benefits
+1- Trade fixed expense for variable expence. (Use what you consume)
+  
+2- Economies of scale (Many users = lower pay as you go prices)
+
+3- Stop guessing about capacity needs (dynamic scalling)
+
+4- Increase speed & agility (Quick to innovate)
+
+5- Focus on your business, not hardware (
+
 
 ### 2.1. Instances
 **General Pupose** : General purpose instances provide a balance of compute, memory, and networking resources. This instance family would not be the best choice for the application in this scenario. Compute optimized instances are more well suited for batch processing workloads than general purpose instances.
@@ -113,7 +155,7 @@ Elastic Load Balancing is the AWS service that automatically distributes incomin
 Although Elastic Load Balancing and Amazon EC2 Auto Scaling are separate services, they work together to help ensure that applications running in Amazon EC2 can provide high performance and availability. 
 Scales without no additional extra cost
 
-![ELB](ELB.png)
+![ELB](img/ELB.png)
 
 ### 2.5. Messaging and queueing
 **_monolithic approach_** have tightly coupled componants are components that are very dependant on each other (if a single component fails, other components fail, and possibly the entire application fails). typical .
@@ -295,4 +337,19 @@ Route 53 allows you to purchase domains and manage then. It can also
 4) Amazon CloudFront connects to the Application Load Balancer, which sends the incoming packet to an Amazon EC2 instance.
 
 # Storage and Databases
-## Instance stores Elastic Block Store (EBS)
+## Instance stores and Elastic Block Store (EBS)
+Some **EC2** VM's can use **Instance store Volumes** this means if the server shuts down, then this data is not persisted, it will be lost. You need an **E**lastic **B**lock **S**tore volume for persistence data. These **EBS** volumes have persistant stores and contain a volumeID. GP3 is an EBS type. They are separate drives from the host computer of an EC2 instance
+
+EBS volumes can be backed-up using EBS snapshots. Basically a full backup with incremental snapshot thereafter.
+![SnapshotEBS](SnapshotEBS.png)
+
+## Amazon S3 (Simple Storage Service)
+ - Store and retrieve unlimited about of data.
+ - Data is stored as objects in buckets.
+ - Biggest Object Size : 5TB
+ - Version controlled
+  
+![object](object.png)
+The data might be an image, video, text document, or any other type of file. Metadata contains information about what the data is, how it is used, the object size, and so on. An object’s key is its unique identifier.
+
+### S3 Standard (99.999999999 probabilty of)
